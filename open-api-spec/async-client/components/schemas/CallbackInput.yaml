@@ -1,0 +1,21 @@
+type: object
+properties:
+  provider:
+    description: The specific provider
+    type: string
+    example: gas
+  records:
+    description: The list of records retrieved
+    type: array
+    items: 
+      type: object
+      properties:
+        billedOn:
+          description: Bill date in timestamp
+          type: string
+          example: 2020-02-07T15:03:14.257Z
+        amount:
+          description: The amount of the bill
+          type: number
+          example: 15.12
+

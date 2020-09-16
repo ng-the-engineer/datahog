@@ -1,0 +1,10 @@
+type: object
+properties:
+  status:
+    description: The status of the request
+    type: string
+    example: Processing
+  requestId:
+    description: The unique id of the request to correlate the result from the callback.
+    type: string
+    example: a999999

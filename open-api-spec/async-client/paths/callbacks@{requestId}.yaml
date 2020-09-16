@@ -1,0 +1,23 @@
+post:
+  tags:
+    - Datahog
+  summary: Receive the Dathog result from Aggregation service
+  operationId: postResult
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/CallbackOutput.yaml
+    '400':
+      description: Bad request
+    '500':
+      description: Internal server error
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/CallbackInput.yaml
+    description: Datahog callback payload
+    required: true

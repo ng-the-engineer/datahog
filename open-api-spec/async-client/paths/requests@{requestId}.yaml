@@ -1,0 +1,24 @@
+post:
+  tags:
+    - Datahog
+  summary: Create a Datahog request to the Aggregation service
+  description: Create a data retrieval request to the Aggregation Server by specifying the list of providers. The result of the data retrieval will be sent back in an asynchronous way through the callback endpoint described next (GET /requests). 
+  operationId: postRequest
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/RequestOutput.yaml
+    '400':
+      description: Bad request
+    '500':
+      description: Internal server error
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RequestInput.yaml
+    description: Datahog request payload
+    required: true
