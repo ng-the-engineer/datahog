@@ -3,7 +3,7 @@ import Joi from 'joi'
 
 const table = {
   hashKey: 'requestId',
-  rangeKey: 'status',
+  rangeKey: 'provider',
   timestamps : true, // will generate createdAt and updatedAt
   schema: {
     id: dynamo.types.uuid(),
