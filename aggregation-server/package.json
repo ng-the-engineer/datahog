@@ -5,7 +5,8 @@
   "scripts": {
     "build": "babel --presets es2015 -d lib/ src",
     "start": "node lib/app.js",
-    "api-tests": "babel --presets es2015 -d lib/ src && mocha lib/api-tests/*.spec.js --exit"
+    "api-tests": "babel --presets es2015 -d lib/ src && mocha lib/api-tests/*.spec.js --exit",
+    "unit-tests": "babel --presets es2015 -d lib/ src && mocha --require babel-register lib/services/*.spec.js --unhandled-rejections=strict"
   },
   "license": "MIT",
   "dependencies": {
@@ -18,6 +19,7 @@
     "koa-router": "^9.4.0"
   },
   "devDependencies": {
+    "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0"
   }

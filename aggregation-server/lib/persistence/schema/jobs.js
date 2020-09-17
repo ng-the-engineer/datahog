@@ -13,13 +13,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var table = {
   hashKey: 'provider',
   rangeKey: 'requestId',
+  timestamps: true, // will generate createdAt and updatedAt
   schema: {
     id: _dynamodb2.default.types.uuid(),
     provider: _joi2.default.string(),
     requestId: _joi2.default.string(),
     status: _joi2.default.string(),
-    result: _joi2.default.any(),
-    time: _joi2.default.date().timestamp()
+    result: _joi2.default.any()
   }
 };
 
