@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # build folder
-.aggregation-server/lib/
+aggregation-server/lib/
