@@ -6,7 +6,7 @@ dynamo.AWS.config.update({
   endpoint: 'http://localhost:9001',
 })
 
-const jobRecord = jobModel.defineJobsTable();
+const jobRecord = jobModel.defineJobsTable()
 
 const saveRecord = (provider, requestId, status, result) => {
 
