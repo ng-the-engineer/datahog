@@ -1,0 +1,24 @@
+post:
+  tags:
+    - Aggregation Service
+  summary: Create a POST request to the Aggregation service
+  description: Parse the request and process the data retrieval. It is an asynchronous process so the result will be sent to Datahog Client as a HTTP callback.
+  operationId: postRequest
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/RequestOutput.yaml
+    '400':
+      description: Bad request
+    '500':
+      description: Internal server error
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/RequestInput.yaml
+    description: Datahog request payload
+    required: true

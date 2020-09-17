@@ -1,0 +1,8 @@
+type: object
+properties:
+  providers:
+    description: The list of providers to be retrieved
+    type: array
+    items:
+      type: string
+      example: gas, internet

@@ -1,0 +1,23 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: Aggregation Server API
+  contact:
+    email: engineer.anthony.ng@gmail.com
+  x-logo:
+    url: 'https://www.wonderbill.com/images/Logoheader.png'
+  description: >
+
+    # Introduction
+
+    This [OpenAPI](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md) Specification describe the endpoints of the Aggregation Server micro-service.
+
+tags:
+  - name: Aggregation Service
+    description: Asynchronous data retrieval operation endpoint
+servers:
+  - url: 'http://localhost:3200/api/v1'
+  - url: 'https://localhost:3200/api/v1'
+paths:
+  '/requests/{requestId}':
+    $ref: 'paths/requests@{requestId}.yaml'
