@@ -131,3 +131,13 @@ This implementation work with a local DynamoDB. To setup, please follow below st
 ```
 # node ./lib/persistence/scripts/createTable.js
 ```
+
+---
+
+### 5. Unit Tests
+
+To run the unit tests, under folder `aggregation-server/`, run
+
+```
+$ yarn run unit-tests
+```
