@@ -100,3 +100,17 @@ $ yarn run api-tests
 ```
 
 
+#### Aggregation Server APIs
+
+Start the Aggregation Server, in folder `aggregation-server/`, run
+
+```
+$ yarn start
+```
+
+Then run the tests with 
+
+```
+$ yarn run api-tests
+```
+
