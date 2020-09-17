@@ -1,6 +1,6 @@
 # See https://redoc.ly/docs/cli/configuration/ for more information.
 apiDefinitions:
-  main: async-client/openapi.yaml
+  main: openapi.yaml
 lint:
   extends:
     - recommended
