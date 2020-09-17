@@ -114,3 +114,20 @@ Then run the tests with
 $ yarn run api-tests
 ```
 
+--- 
+
+### 4. Setup Database
+
+This implementation work with a local DynamoDB. To setup, please follow below steps.
+
+1. [Install local DynamoDB](https://gist.github.com/ng-the-engineer/1f3b9bc61ab718ba36b9a6fe0b4f5289)
+
+2. [Configure dummy AWS credential](https://gist.github.com/ng-the-engineer/e89b16e83c216b09d35d762b12878d31)
+
+3. [(Optional) Setup DynamoDB GUI tool](https://gist.github.com/ng-the-engineer/7050636d63e3cdf3db6b0bea6dc5602a)
+
+4. Run a script to create the table. You will see the message `Table is created successfully` when the table is created successfully.
+
+```
+# node ./lib/persistence/scripts/createTable.js
+```

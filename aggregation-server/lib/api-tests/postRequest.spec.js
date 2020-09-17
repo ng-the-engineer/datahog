@@ -25,7 +25,6 @@ describe('Requests API tests', function () {
 
     _chai2.default.request('localhost:3200').post('/api/v1/requests?requestId=123').send(reqBody).end(function (err, res) {
       if (err) done(err);
-      console.log('res:', res);
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('object');
       expect(res.body).to.have.property('status');
