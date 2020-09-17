@@ -55,3 +55,31 @@
 
 #### Redis
 - It serves the queue service with persistence capability. 
+
+---
+
+### 2. Open API Specification
+- API Spec first approach
+- There are two API spec under this project
+#### API spec for Asynchronous Client
+
+To view the spec, go to folder `./open-api-spec/client/`, run
+
+```
+$ npm start
+```
+
+The spec can be accessed at localhost:8080
+
+#### API spec for Aggregation Server
+
+To view the spec, go to folder `./open-api-spec/server/`, run
+
+```
+$ npm start
+```
+
+The spec can be accessed at localhost:8080
+
+
+
