@@ -81,5 +81,22 @@ $ npm start
 
 The spec can be accessed at localhost:8080
 
+---
+
+### 3. API Tests
+
+#### Asynchronous Client APIs
+
+Start the Asynchronous Client, in folder `async-client/`, run
+
+```
+$ yarn start
+```
+
+Then run the tests with
+
+```
+$ yarn run api-tests
+```
 
 
