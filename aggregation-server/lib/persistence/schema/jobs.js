@@ -11,8 +11,8 @@ var _joi2 = _interopRequireDefault(_joi);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var table = {
-  hashKey: 'provider',
-  rangeKey: 'requestId',
+  hashKey: 'requestId',
+  rangeKey: 'provider',
   timestamps: true, // will generate createdAt and updatedAt
   schema: {
     id: _dynamodb2.default.types.uuid(),
