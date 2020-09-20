@@ -18,16 +18,18 @@ _chai2.default.use(_chaiHttp2.default);
 describe('Callback API tests', function () {
   it('POST /callback should return 200 if body and querystring is supplied', function (done) {
 
-    var reqBody = {
+    var reqBody = [{
       provider: 'gas',
       records: []
-    };
+    }];
 
     _chai2.default.request('localhost:3100').post('/api/v1/callback?requestId=123').send(reqBody).end(function (err, res) {
       if (err) done(err);
       expect(res).to.have.status(200);
-      expect(res.body).to.have.property('provider');
-      expect(res.body).to.have.property('records');
+      // expect(res.body).to.be.an('array')
+      expect(res.body.message).to.equal('CALLBACK_ACKNOWLEDGED');
+      // expect(res.body).to.have.property('provider')
+      // expect(res.body).to.have.property('records')
       done();
     });
   });

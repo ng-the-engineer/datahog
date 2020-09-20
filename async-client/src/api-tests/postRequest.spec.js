@@ -1,9 +1,9 @@
-import chai from 'chai';
-import chaiHttp from 'chai-http';
+import chai from 'chai'
+import chaiHttp from 'chai-http'
 
-const {expect} = chai;
+const {expect} = chai
 
-chai.use(chaiHttp);
+chai.use(chaiHttp)
 
 describe('Requests API tests', () => {
   it('POST /requests should return 200 if body has providers', (done) => {

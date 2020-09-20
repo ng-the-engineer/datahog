@@ -1,52 +1,41 @@
 import koaRouter from "koa-router"
-import Router from "koa-router"
+import requestToAggregationServer from '../services/requestServer'
+import generateRequestId from '../services/idGenerator'
+import config from '../config'
 
 const router = koaRouter()
-const baseUrl = '/api/v1'
-
-router.get(`${baseUrl}`, async (ctx) => {
-  ctx.body = {
-    'message': 'Hello world'
-  }
-})
+const baseUrl = config.baseUrl
 
 router.post(`${baseUrl}/requests`, async (ctx) => {
-  const body = ctx.request.body;
-
-  ctx.assert(body.providers, 422, 'Body parameter providers is mandatory');
-
+  const payload = ctx.request.body;
+  ctx.assert(payload.providers, 422, 'Body parameter providers is mandatory');
+  const requestId = generateRequestId()
   try {
-    const record = {
-      status: 'Acknowledged',
-      requestId: 999
-    }
-    ctx.body = record;
-    ctx.status = 200;
+    await requestToAggregationServer({ requestId, payload })
+    console.info(`${new Date().toISOString()} requestId: ${requestId} placed request`)
+    createResponse({ ctx, body: { status: 'REQUEST_PLACED', requestId}, status: 200 })
   } catch (err) {
-    ctx.body = err;
-    ctx.status = 400;
+    createResponse({ ctx, body: err, status: 400})
   }
 })
 
 router.post(`${baseUrl}/callback`, async (ctx) => {
-  const body = ctx.request.body
+  const payload = ctx.request.body
   const request = ctx.query
-
-  ctx.assert(body.provider, 422, 'Body parameter "provider" is mandatory')
-  ctx.assert(body.records, 422, 'Body parameter "records" is mandatory')
+  ctx.assert(Array.isArray(payload), 422, 'Body require an array')
   ctx.assert(request.requestId, 422, 'Query parameter "requestId" is mandatory');
-
   try {
-    const result = {
-      provider: 'gas',
-      records: []
-    }
-    ctx.body = result;
-    ctx.status = 200;
+    console.info(`${new Date().toISOString()} requestId: ${request.requestId} received callback: ${JSON.stringify(payload, null, 5)}`)
+    createResponse({ ctx, body: { message: 'CALLBACK_ACKNOWLEDGED' }, status: 200})
   } catch (err) {
-    ctx.body = err;
-    ctx.status = 400;
+    createResponse({ ctx, body: err, status: 400})
   }
 })
 
-module.exports = router
+const createResponse = ((context) => {
+  const {ctx, body, status} = context
+  ctx.body = body
+  ctx.status = status
+})
+
+export default router

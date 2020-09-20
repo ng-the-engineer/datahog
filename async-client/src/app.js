@@ -1,15 +1,16 @@
 import Koa from "koa"
 import bodyParser from "koa-bodyparser"
-import logger from "koa-bodyparser"
+import logger from "koa-logger"
 import mainRoute from "./route/root"
+import config from './config'
 
 const app = new Koa()
-const port = 3100
+const port = config.port || 3100
 
 app.use(bodyParser())
 app.use(logger())
 app.use(mainRoute.routes())
 
 app.listen(port, async () => {
-  console.log(`start listening on ${port}`)
+  console.info(`Aysnc Client starts listening on port ${port}`)
 })
