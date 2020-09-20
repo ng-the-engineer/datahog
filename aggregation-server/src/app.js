@@ -1,14 +1,17 @@
-import Koa from "koa"
-import bodyParser from "koa-bodyparser"
-import logger from "koa-bodyparser"
-import mainRoute from "./route/root"
+import Koa from 'koa'
+import bodyParser from 'koa-bodyparser'
+import logger from 'koa-logger'
+import mainRoute from './route/root'
+import config from './config'
 
 const app = new Koa()
+
+const port = config.port || 3200
 
 app.use(bodyParser())
 app.use(logger())
 app.use(mainRoute.routes())
 
-app.listen(3200, async () => {
-  console.log('start listening on 3200')
+app.listen(port, async () => {
+  console.log(`Aggregation Server starts listening on port ${port}`)
 })

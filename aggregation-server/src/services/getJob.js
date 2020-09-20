@@ -1,16 +1,11 @@
-import dynamo from 'dynamodb'
-import jobModel from '../persistence/model/jobs'
+import getJobsTable from '../persistence/model/jobs'
+import setAwsRegion from '../utils/setAwsRegion'
 
-dynamo.AWS.config.update({
-  region: 'local',
-  endpoint: 'http://localhost:9001',
-})
-
-const jobRecord = jobModel.defineJobsTable()
+setAwsRegion()
 
 const getRecords = (requestId) => {
   return new Promise((resolve, reject) => {
-    jobRecord
+    getJobsTable()
       .query(requestId)
       .loadAll()
       .exec((err, job) => {
@@ -31,6 +26,4 @@ const getRecords = (requestId) => {
   })
 } 
 
-module.exports = {
-  getRecords
-}
+export default getRecords

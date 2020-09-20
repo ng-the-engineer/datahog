@@ -1,18 +1,12 @@
-import dynamo from 'dynamodb'
-import jobModel from '../persistence/model/jobs'
-import getJobService from './getJob'
+import getJobsTable from '../persistence/model/jobs'
+import setAwsRegion from '../utils/setAwsRegion'
 
-dynamo.AWS.config.update({
-  region: 'local',
-  endpoint: 'http://localhost:9001',
-})
+setAwsRegion()
 
-const jobRecord = jobModel.defineJobsTable()
-
-const updateRecord = (provider, requestId, status, result) => {
+const updateRecord = ({ requestId, provider, status, result }) => {
   const modifiedRecord = {
-    provider,
     requestId,
+    provider,
     status,
     result: !result ? [] : result
   }
@@ -25,7 +19,7 @@ const updateRecord = (provider, requestId, status, result) => {
       })
     }
     
-    jobRecord.update(modifiedRecord, (err, record) => {
+    getJobsTable().update(modifiedRecord, (err, record) => {
       if (err) {
         return reject({
           'status': 'FAIL_TO_UPDATE',
@@ -41,6 +35,4 @@ const updateRecord = (provider, requestId, status, result) => {
   })
 }
 
-module.exports = {
-  updateRecord
-}
+export default updateRecord

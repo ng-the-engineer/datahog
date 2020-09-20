@@ -26,7 +26,7 @@ describe('Service - save job', function () {
       "billedOn": "2020-02-07T15:03:14.257Z",
       "amount": 15.12
     }];
-    var actual = await _saveJob2.default.saveRecord(provider, requestId, status, result);
+    var actual = await (0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result });
 
     (0, _chai.expect)(actual).to.be.an('object');
     (0, _chai.expect)(actual).to.have.property('status');
@@ -48,7 +48,7 @@ describe('Service - save job', function () {
       "billedOn": "2020-02-07T15:03:14.257Z",
       "amount": 15.12
     }];
-    return (0, _chai.expect)(_saveJob2.default.saveRecord(provider, requestId, status, result)).to.be.rejected;
+    return (0, _chai.expect)((0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result })).to.be.rejected;
   });
 
   it('should fail to save if requestId is missing', async function () {
@@ -59,7 +59,7 @@ describe('Service - save job', function () {
       "billedOn": "2020-02-07T15:03:14.257Z",
       "amount": 15.12
     }];
-    return (0, _chai.expect)(_saveJob2.default.saveRecord(provider, requestId, status, result)).to.be.rejected;
+    return (0, _chai.expect)((0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result })).to.be.rejected;
   });
 
   it('should fail to save if status is missing', async function () {
@@ -70,7 +70,7 @@ describe('Service - save job', function () {
       "billedOn": "2020-02-07T15:03:14.257Z",
       "amount": 15.12
     }];
-    return (0, _chai.expect)(_saveJob2.default.saveRecord(provider, requestId, status, result)).to.be.rejected;
+    return (0, _chai.expect)((0, _saveJob2.default)(requestId, provider, status, result)).to.be.rejected;
   });
 
   it('should save the record successfully if result is missing and status is not DONE', async function () {
@@ -79,7 +79,7 @@ describe('Service - save job', function () {
     var status = 'JOB_QUEUED';
     var result = null;
 
-    var actual = await _saveJob2.default.saveRecord(provider, requestId, status, result);
+    var actual = await (0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result });
 
     (0, _chai.expect)(actual).to.be.an('object');
     (0, _chai.expect)(actual).to.have.property('status');
@@ -94,6 +94,6 @@ describe('Service - save job', function () {
     var status = 'DONE';
     var result = null;
 
-    return (0, _chai.expect)(_saveJob2.default.saveRecord(provider, requestId, status, result)).to.be.rejectedWith('Result must not be empty if status is DONE');
+    return (0, _chai.expect)((0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result })).to.be.rejectedWith('Result must not be empty if status is DONE');
   });
 });

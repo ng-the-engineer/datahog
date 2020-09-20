@@ -14,6 +14,4 @@ const table = {
   },
 }
 
-module.exports = {
-  table,
-}
+export default table

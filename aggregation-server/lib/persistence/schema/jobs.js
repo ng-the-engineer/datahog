@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _dynamodb = require('dynamodb');
 
 var _dynamodb2 = _interopRequireDefault(_dynamodb);
@@ -23,6 +27,4 @@ var table = {
   }
 };
 
-module.exports = {
-  table: table
-};
+exports.default = table;

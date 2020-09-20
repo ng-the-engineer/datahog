@@ -19,10 +19,11 @@ _dynamodb2.default.AWS.config.update({
   endpoint: 'http://localhost:9001'
 });
 
-_jobs4.default.defineJobsTable();
+// jobsModel.defineJobsTable();
+(0, _jobs4.default)();
 
 var throughput = {};
-throughput['JOBS'] = _jobs2.default.capacity;
+throughput['JOBS'] = _jobs2.default;
 
 _dynamodb2.default.createTables(throughput, function (err) {
   if (err) {

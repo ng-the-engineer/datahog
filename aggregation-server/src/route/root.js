@@ -1,33 +1,28 @@
 import koaRouter from "koa-router"
-import Router from "koa-router"
+import createJobs from '../controllers/datahog'
+import config from '../config'
 
 const router = koaRouter()
-const baseUrl = '/api/v1'
-
-router.get(`${baseUrl}`, async (ctx) => {
-  ctx.body = {
-    'message': 'Hello world'
-  }
-})
+const baseUrl = config.baseUrl
 
 router.post(`${baseUrl}/requests`, async (ctx) => {
-  const body = ctx.request.body
-  const request = ctx.query
+  const requestId = ctx.query.requestId
+  const providers = ctx.request.body.providers
 
-  ctx.assert(request.requestId, 422, 'Query parameter "requestId" is mandatory')
-  ctx.assert(body.providers, 422, 'Body parameter providers is mandatory')
+  ctx.assert(requestId, 422, 'Query parameter "requestId" is mandatory')
+  ctx.assert(providers, 422, 'Body parameter "providers" is mandatory')
 
   try {
-    const record = {
-      status: 'Acknowledged',
-      requestId: request.requestId
-    }
-    ctx.body = record;
-    ctx.status = 200;
+    const record = createJobs({ requestId, providers })
+    createResponse({ ctx, body: record, status: 200 })
   } catch (err) {
-    ctx.body = err;
-    ctx.status = 400;
+    createResponse({ ctx, body: err, status: 400})
   }
 })
 
-module.exports = router
+const createResponse = (context) => {
+  const { ctx, body, status} = context
+  ctx.body = body
+  ctx.status = status
+}
+export default router

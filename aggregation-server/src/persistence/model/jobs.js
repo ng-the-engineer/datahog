@@ -1,10 +1,8 @@
 import dynamo from 'dynamodb'
-import jobSchema from '../schema/jobs'
+import table from '../schema/jobs'
 
-const defineJobsTable = () => {
-  return dynamo.define('JOB', jobSchema.table);
+const getJobsTable = () => {
+  return dynamo.define('JOB', table);
 }
 
-module.exports = {
-  defineJobsTable
-}
+export default getJobsTable

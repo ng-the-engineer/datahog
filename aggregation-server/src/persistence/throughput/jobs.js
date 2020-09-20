@@ -3,6 +3,8 @@ const capacity = {
   writeCapacity: 5,
 }
 
-module.exports = {
-  capacity,
-}
+// module.exports = {
+//   capacity,
+// }
+
+export default capacity

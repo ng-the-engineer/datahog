@@ -1,27 +1,30 @@
 'use strict';
 
-var _dynamodb = require('dynamodb');
-
-var _dynamodb2 = _interopRequireDefault(_dynamodb);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _jobs = require('../persistence/model/jobs');
 
 var _jobs2 = _interopRequireDefault(_jobs);
 
+var _setAwsRegion = require('../utils/setAwsRegion');
+
+var _setAwsRegion2 = _interopRequireDefault(_setAwsRegion);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_dynamodb2.default.AWS.config.update({
-  region: 'local',
-  endpoint: 'http://localhost:9001'
-});
+(0, _setAwsRegion2.default)();
 
-var jobRecord = _jobs2.default.defineJobsTable();
-
-var saveRecord = function saveRecord(provider, requestId, status, result) {
+var saveRecord = function saveRecord(input) {
+  var requestId = input.requestId,
+      provider = input.provider,
+      status = input.status,
+      result = input.result;
 
   var newRecord = {
-    provider: provider,
     requestId: requestId,
+    provider: provider,
     status: status,
     result: result
   };
@@ -35,7 +38,7 @@ var saveRecord = function saveRecord(provider, requestId, status, result) {
       });
     }
 
-    jobRecord.create(newRecord, function (err, record) {
+    (0, _jobs2.default)().create(newRecord, function (err, record) {
       if (err) {
         return reject({
           'status': 'FAIL_TO_SAVE',
@@ -51,6 +54,4 @@ var saveRecord = function saveRecord(provider, requestId, status, result) {
   });
 };
 
-module.exports = {
-  saveRecord: saveRecord
-};
+exports.default = saveRecord;

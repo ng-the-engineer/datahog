@@ -4,16 +4,18 @@
   "main": "index.js",
   "scripts": {
     "build": "babel --presets es2015 -d lib/ src",
-    "start": "node lib/app.js",
+    "start": "node lib/app.js --unhandled-rejections=strict",
     "api-tests": "babel --presets es2015 -d lib/ src && mocha lib/api-tests/*.spec.js --exit",
-    "unit-tests": "babel --presets es2015 -d lib/ src && mocha --require babel-register lib/services/*.spec.js --unhandled-rejections=strict"
+    "unit-tests": "babel --presets es2015 -d lib/ src && mocha --require babel-register 'lib/{,!(api-tests)/**/}*.spec.js' --unhandled-rejections=strict"
   },
   "license": "MIT",
   "dependencies": {
     "axios": "^0.20.0",
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
+    "bee-queue": "^1.2.3",
     "dynamodb": "^1.2.1",
+    "fetch": "^1.1.0",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-logger": "^3.2.1",
@@ -22,6 +24,7 @@
   "devDependencies": {
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
+    "chai-events": "^0.0.3",
     "chai-http": "^4.3.0"
   }
 }

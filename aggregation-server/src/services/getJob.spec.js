@@ -1,7 +1,7 @@
 import chai, {expect} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import getJobService from './getJob'
-import saveJobService from './saveJob'
+import getRecords from './getJob'
+import saveRecord from './saveJob'
 
 chai.use(chaiAsPromised)
 
@@ -9,7 +9,6 @@ describe('Service - get job', () => {
   it('should get record successfully if providers have different status', async () => {
 
     const provider = 'gas'
-    const provider2 = 'internet'
     const requestId = Math.floor(Math.random() * Math.floor(999999999)).toString()
     const status = 'DONE'
     const result = [
@@ -18,10 +17,10 @@ describe('Service - get job', () => {
         "amount": 15.12
       }
     ]
-    await saveJobService.saveRecord(provider, requestId, 'DONE', result)
-    await saveJobService.saveRecord(provider2, requestId, 'JOB_QUEUED', result)
+    await saveRecord({ requestId, provider, status, result })
+    await saveRecord({ requestId, provider: 'internet', status: 'JOB_QUEUED', result })
 
-    const actual = await getJobService.getRecords(requestId)
+    const actual = await getRecords(requestId)
 
     expect(actual).to.be.an('object')
     expect(actual.message).to.equal('RECORD_FOUND')
@@ -36,7 +35,6 @@ describe('Service - get job', () => {
   it('should get record successfully if providers have same status', async () => {
 
     const provider = 'gas'
-    const provider2 = 'internet'
     const requestId = Math.floor(Math.random() * Math.floor(999999999)).toString()
     const status = 'DONE'
     const result = [
@@ -45,10 +43,10 @@ describe('Service - get job', () => {
         "amount": 15.12
       }
     ]
-    await saveJobService.saveRecord(provider, requestId, 'DONE', result)
-    await saveJobService.saveRecord(provider2, requestId, 'DONE', result)
+    await saveRecord({ requestId, provider, status, result })
+    await saveRecord({ requestId, provider: 'internet', status, result })
 
-    const actual = await getJobService.getRecords(requestId)
+    const actual = await getRecords(requestId)
 
     expect(actual).to.be.an('object')
     expect(actual.message).to.equal('RECORD_FOUND')

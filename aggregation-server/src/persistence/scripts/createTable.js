@@ -1,16 +1,17 @@
 import dynamo from 'dynamodb'
-import jobsThroughput from '../throughput/jobs'
-import jobsModel from '../model/jobs'
+import capacity from '../throughput/jobs'
+import getJobsTable from '../model/jobs'
 
 dynamo.AWS.config.update({
   region: 'local',
   endpoint: 'http://localhost:9001',
 });
 
-jobsModel.defineJobsTable();
+// jobsModel.defineJobsTable();
+getJobsTable()
 
 const throughput = {};
-throughput['JOBS'] = jobsThroughput.capacity;
+throughput['JOBS'] = capacity;
 
 dynamo.createTables(throughput, (err) => {
   if (err) {

@@ -1,6 +1,6 @@
 import chai, {expect} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import saveJobService from './saveJob'
+import saveRecord from './saveJob'
 
 chai.use(chaiAsPromised)
 
@@ -16,7 +16,7 @@ describe('Service - save job', () => {
         "amount": 15.12
       }
     ]
-    const actual = await saveJobService.saveRecord(provider, requestId, status, result)
+    const actual = await saveRecord({ requestId, provider, status, result })
 
     expect(actual).to.be.an('object')
     expect(actual).to.have.property('status')
@@ -40,7 +40,7 @@ describe('Service - save job', () => {
         "amount": 15.12
       }
     ]
-    return expect(saveJobService.saveRecord(provider, requestId, status, result)).to.be.rejected
+    return expect(saveRecord({ requestId, provider, status, result })).to.be.rejected
   })
 
   it('should fail to save if requestId is missing', async () => {
@@ -53,7 +53,7 @@ describe('Service - save job', () => {
         "amount": 15.12
       }
     ]
-    return expect(saveJobService.saveRecord(provider, requestId, status, result)).to.be.rejected
+    return expect(saveRecord({ requestId, provider, status, result })).to.be.rejected
   })
 
   it('should fail to save if status is missing', async () => {
@@ -66,7 +66,7 @@ describe('Service - save job', () => {
         "amount": 15.12
       }
     ]
-    return expect(saveJobService.saveRecord(provider, requestId, status, result)).to.be.rejected
+    return expect(saveRecord(requestId, provider, status, result)).to.be.rejected
   })
 
   it('should save the record successfully if result is missing and status is not DONE', async () => {
@@ -75,7 +75,7 @@ describe('Service - save job', () => {
     const status = 'JOB_QUEUED'
     const result = null
 
-    const actual = await saveJobService.saveRecord(provider, requestId, status, result)
+    const actual = await saveRecord({ requestId, provider, status, result })
 
     expect(actual).to.be.an('object')
     expect(actual).to.have.property('status')
@@ -90,7 +90,7 @@ describe('Service - save job', () => {
     const status = 'DONE'
     const result = null
 
-    return expect(saveJobService.saveRecord(provider, requestId, status, result)).to.be.rejectedWith('Result must not be empty if status is DONE')
+    return expect(saveRecord({ requestId, provider, status, result })).to.be.rejectedWith('Result must not be empty if status is DONE')
   })
 })
 

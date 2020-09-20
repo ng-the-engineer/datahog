@@ -1,7 +1,7 @@
 import chai, {expect} from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import updateJobService from './updateJob'
-import saveJobService from './saveJob'
+import updateRecord from './updateJob'
+import saveRecord from './saveJob'
 
 chai.use(chaiAsPromised)
 
@@ -16,7 +16,7 @@ describe('Service - update job', () => {
         "amount": 980.12
       }
     ]
-    await saveJobService.saveRecord(provider, requestId, status, result)
+    await saveRecord({ requestId, provider, status, result })
     
     const updatedStatus = 'DONE'
     const updatedResult = [
@@ -30,7 +30,7 @@ describe('Service - update job', () => {
       }
     ]
 
-    const actual = await updateJobService.updateRecord(provider, requestId, updatedStatus, updatedResult)
+    const actual = await updateRecord({ requestId, provider, status: updatedStatus, result: updatedResult })
     expect(actual).to.have.property('status')
     expect(actual).to.have.property('record')
     expect(actual.status).to.equal('RECORD_UPDATED')
@@ -52,7 +52,7 @@ describe('Service - update job', () => {
         "amount": 15.12
       }
     ]
-    return expect(updateJobService.updateRecord(provider, requestId, status, result)).to.be.rejected
+    return expect(updateRecord({ requestId, provider, status, result })).to.be.rejected
   })
 
   it('should fail to update if requestId is missing', async () => {
@@ -65,7 +65,7 @@ describe('Service - update job', () => {
         "amount": 15.12
       }
     ]
-    return expect(updateJobService.updateRecord(provider, requestId, status, result)).to.be.rejected
+    return expect(updateRecord({ requestId, provider, status, result })).to.be.rejected
   })
 
   it('should fail to update if status is missing', async () => {
@@ -78,7 +78,7 @@ describe('Service - update job', () => {
         "amount": 15.12
       }
     ]
-    return expect(updateJobService.updateRecord(provider, requestId, status, result)).to.be.rejectedWith('Status must not be empty when a record is updated')
+    return expect(updateRecord({ requestId, provider, status, result })).to.be.rejectedWith('Status must not be empty when a record is updated')
   })
 
   it('should fail to update if result is missing', async () => {
@@ -87,7 +87,7 @@ describe('Service - update job', () => {
     const status = 'JOB_QUEUED'
     const result = null
     const updatedResult = []
-    const actual = await updateJobService.updateRecord(provider, requestId, status, result)
+    const actual = await updateRecord({ requestId, provider, status, result })
     expect(actual).to.have.property('status')
     expect(actual).to.have.property('record')
     expect(actual.status).to.equal('RECORD_UPDATED')
@@ -105,7 +105,7 @@ describe('Service - update job', () => {
     const status = 'JOB_QUEUED'
     const result = null
     const updatedResult = []
-    const actual = await updateJobService.updateRecord(provider, requestId, status, result)
+    const actual = await updateRecord({ requestId, provider, status, result })
     // expect(actual).to.have.property('status')
     // expect(actual).to.have.property('record')
     // expect(actual.status).to.equal('RECORD_UPDATED')
