@@ -45,6 +45,11 @@
 - A failing job (data provider return 500, or others) requeue (backoff) the job in the queue.
 - 
 
+Sequence Diagram: 
+![alt text][sequence diagram]
+
+[sequence diagram]: ./sequence_diagram.png "Sequence Diagram"
+
 #### DynamoDB
 - It serve the source of truth of the status of the data retrieval process.
 - The persistence layer expose 3 endpoints:
@@ -140,4 +145,12 @@ To run the unit tests, under folder `aggregation-server/`, run
 
 ```
 $ yarn run unit-tests
+```
+
+### 6. Setup Message Queue
+
+#### Start Redis
+
+```
+$ docker run --name my-redis-container -p 6379:6379 -d redis
 ```
