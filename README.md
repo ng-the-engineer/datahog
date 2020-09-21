@@ -471,3 +471,25 @@ $ yarn run api-tests
 
 ### Discussion
 
+#### Queue Setting
+The current retry strategy for failed job is every 5 seconds and maximum retry count is 10 for easier experiment the behaviour.
+
+The parameter is configured in `./aggregation-server/src/config.js`
+
+```
+jobRetryCount: 10,
+jobRetryInterval: 5000,
+```
+
+There are two strategies could be used. The current value is `fixed` which means the retry is executed in regular interval. It could be configured as `exponential` which double the interval every retry.
+
+
+#### Selection of technology stack
+
+There are many different ways to implement the solution for this web-hook application. My consideration is `Do NOT reinvent the wheel` and `Easy to maintain`.
+
+- The core mechanism is a state machine that enable process recovery. 
+
+- Bee-Queue with Redis was chosen for the job queue implementation because it is resilient, scalable, and lightweight. 
+
+- Local DynamoDB was chosen because it is lightweight and it can seamlessly upgrade to DynamoDB on AWS Cloud with least migration effort and enjoy the benefit of High Availability and High Scalability.
