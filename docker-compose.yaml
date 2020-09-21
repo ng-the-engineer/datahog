@@ -1,0 +1,12 @@
+version: '3' # specify docker-compose version
+
+services:
+  client-spec: # name of the first service
+    build: "./open-api-spec/client" # specify the directory of the Dockerfile
+    ports:
+      - "8081:8080" # maps port 8081 on localhost to 8080 in container
+
+  server-spec: # name of the second service
+    build: "./open-api-spec/server" # specify the directory of the Dockerfile
+    ports:
+      - "8082:8080" # maps port 8000 on localhost to 8000 in container

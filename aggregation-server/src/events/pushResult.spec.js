@@ -23,11 +23,4 @@ describe('Events - push result', () => {
     return predicate;
   })
 
-  it('should not respond to non defined alert', () => {
-    emitter.should.not.emit('NON_DEFINED_ALERT')
-  })
-
-  it('should not respond to non defined alert', () => {
-    emitter.should.not.emit('NON_DEFINED_ALERT', {timeout: 500})
-  })
 })

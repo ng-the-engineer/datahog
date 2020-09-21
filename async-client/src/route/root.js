@@ -25,7 +25,7 @@ router.post(`${baseUrl}/callback`, async (ctx) => {
   ctx.assert(Array.isArray(payload), 422, 'Body require an array')
   ctx.assert(request.requestId, 422, 'Query parameter "requestId" is mandatory');
   try {
-    console.info(`${new Date().toISOString()} requestId: ${request.requestId} received callback: ${JSON.stringify(null, 5, payload)}`)
+    console.info(`${new Date().toISOString()} requestId: ${request.requestId} received callback: ${JSON.stringify(payload, null, 5)}`)
     createResponse({ ctx, body: { message: 'CALLBACK_ACKNOWLEDGED' }, status: 200})
   } catch (err) {
     createResponse({ ctx, body: err, status: 400})

@@ -8,9 +8,9 @@ var _koaRouter = require('koa-router');
 
 var _koaRouter2 = _interopRequireDefault(_koaRouter);
 
-var _retrieveData = require('../services/retrieveData');
+var _requestServer = require('../services/requestServer');
 
-var _retrieveData2 = _interopRequireDefault(_retrieveData);
+var _requestServer2 = _interopRequireDefault(_requestServer);
 
 var _idGenerator = require('../services/idGenerator');
 
@@ -30,7 +30,7 @@ router.post(baseUrl + '/requests', async function (ctx) {
   ctx.assert(payload.providers, 422, 'Body parameter providers is mandatory');
   var requestId = (0, _idGenerator2.default)();
   try {
-    await (0, _retrieveData2.default)({ requestId: requestId, payload: payload });
+    await (0, _requestServer2.default)({ requestId: requestId, payload: payload });
     console.info(new Date().toISOString() + ' requestId: ' + requestId + ' placed request');
     createResponse({ ctx: ctx, body: { status: 'REQUEST_PLACED', requestId: requestId }, status: 200 });
   } catch (err) {

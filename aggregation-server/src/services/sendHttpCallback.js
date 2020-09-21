@@ -6,7 +6,7 @@ const sendResult = async (input) => {
     const ack = await axios.post(`http://localhost:3100/api/v1/callback?requestId=${requestId}`, payload)
     return ack
   } catch (err) {
-    console.log('err', err)
+    console.log('err', err.code)
   } 
 }
 
