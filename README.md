@@ -11,69 +11,66 @@
 8. Discussion
 
 ---
-### 0. Quick  Start
+### 1. Quick  Start
 
 This is an overview of how to start the datahog application. 
 
-#### Install dependencies
-##### 1. Redis
+#### Pre-requisite
 
-Redis is used to support the message queue. Run below command to run the offical Redis container
+##### Install Local DynamoDB
 
-```
-$ docker run --name my-redis-container -p 6379:6379 -d redis
-```
-
-(Optional) To access Redis, [check this gist](https://gist.github.com/ng-the-engineer/04acc31d7fafc1288bfb4ff960271551)
-
-##### 2. Local DynamoDB
-
-DynamoDB is used to track the progress of the data retrieval jobs.
-
-This implementation work with a local DynamoDB, you don't need an AWS credential to run this application. To setup, please follow below steps.
+DynamoDB is used to track the progress of the data retrieval jobs. A local DynamoDB is used in this project for demo purpose, so you don't need an AWS credential and worry the cost during development. 
 
 1. [Install local DynamoDB](https://gist.github.com/ng-the-engineer/1f3b9bc61ab718ba36b9a6fe0b4f5289)
 
 2. [Configure dummy AWS credential](https://gist.github.com/ng-the-engineer/e89b16e83c216b09d35d762b12878d31)
 
-3. [(Optional) Setup DynamoDB GUI tool](https://gist.github.com/ng-the-engineer/7050636d63e3cdf3db6b0bea6dc5602a)
-
-4. This app has only one table in DynamoDB (named JOBS). Run below script to create the table. You will see the message `Table is created successfully` when the table is created successfully.
+3. Run below script to create the table to create the `JOBS` table. You will see the message `Table is created successfully` when the table is created successfully.
 
 ```
 # node ./lib/persistence/scripts/createTable.js
 ```
 
-#### Open API Specification
+4. [(Optional) Setup DynamoDB GUI tool](https://gist.github.com/ng-the-engineer/7050636d63e3cdf3db6b0bea6dc5602a) if you want to access the database.
 
-This app has two sets of API. 
+#### Docker-compose
 
-##### Asynchronous Client
-- Entry point to place the data retrieval request.
-- Provide a web-hook to receive the callback from the server.
-
-##### Aggregation Server
-- Break down the request into individual retrieval jobs.
-- Failed retrieval job will retry at certain interval until succeed.
-- Requests are processed in concurrent and asynchronous fashion.
-
-To view the API specification/ Swagger in web browser, under root folder, run
+To start the containers
 
 ```
 $ docker-compose up -d
 ```
 
+To stop the containers
 
+```
+$ docker-compose down
+```
+
+| Container            | Internal port    | Host port  |
+| -------------------- |:----------------:| :--------: |
+| client-spec          | 8080             | 8081       |
+| server-spec          | 8080             | 8082       |
+| data-server          | 3000             | 3000       |
+| redis                | 6379             | 6379       |
+
+(Optional) To access Redis, [check this gist](https://gist.github.com/ng-the-engineer/04acc31d7fafc1288bfb4ff960271551)
+
+
+#### Open API Specification
+
+This app has two sets of API. The specification is written in Open API Specification version 3.
 
 | API                  | Swagger Url                 |
 | -------------------- |:---------------------------:|
 | Asynchronous Client  | http://localhost:8081/      |
 | Aggregation Server   | http://localhost:8082/      |
 
-The specification is written in Open API Specification version 3
 
+#### Asynchronous Client 
 
-#### Start Asynchronous Client 
+- Entry point to place the data retrieval request.
+- Provide a web-hook to receive the callback from the server.
 
 In folder `./async-client`, run 
 
@@ -83,7 +80,11 @@ $ yarn && yarn build && yarn start
 
 When `Aysnc Client starts listening on port 3100` appearing in the console, the client app is ready to serve.
 
-#### Start Aggregation Server
+#### Aggregation Server
+
+- Break down the request into individual retrieval jobs.
+- Failed retrieval job will retry at certain interval until succeed.
+- Requests are processed in concurrent and asynchronous fashion.
 
 In folder `./aggregation-server`, run 
 
@@ -203,7 +204,7 @@ Let's see what is happening behind the scene.
 | 20       | Reply to server with an acknowledgement        |
 
 
-#### Request with multiple providers
+#### Make a reequest with multiple providers
 
 Call the same endpoint with the followed body:
 
@@ -318,7 +319,7 @@ Post request body:
 
 ---
 
-### 1. Development
+### 2. Development
 
 #### Unit Test
 
@@ -353,7 +354,7 @@ In folder `./aggregation-server`, run
 $ yarn run api-tests
 ```
 
-#### Project structure
+### 3. Project structure
 
 ```
 .
@@ -417,7 +418,7 @@ $ yarn run api-tests
 
 ---
 
-### 2. Architecture
+### 4. Architecture
 
 #### Asynchronous client 
 - A HTTP server accepting data retrieval request. 
@@ -448,9 +449,9 @@ $ yarn run api-tests
 - Each job is placed to a queue.
 - A successful job (data provider return 200) trigger a status update to the corresponding requestId in database. It also check the all status in the request. If all jobs has finished, it send back the result to the callback url.
 - A failing job (data provider return 500, or others) requeue (backoff) the job in the queue.
-- 
 
-Sequence Diagram: 
+
+#### Sequence Diagram: 
 ![alt text][sequence diagram]
 
 [sequence diagram]: ./sequence_diagram.png "Sequence Diagram"
@@ -469,3 +470,4 @@ Sequence Diagram:
 ---
 
 ### Discussion
+
