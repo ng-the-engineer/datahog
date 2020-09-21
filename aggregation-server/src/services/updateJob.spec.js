@@ -99,21 +99,4 @@ describe('Service - update job', () => {
     expect(actual.record.attrs.result).to.deep.equal(updatedResult)
   })
 
-  it.skip('should fail to update if provider and requestId is not find', async () => {
-    const provider = 'unknown'
-    const requestId = '99999'
-    const status = 'JOB_QUEUED'
-    const result = null
-    const updatedResult = []
-    const actual = await updateRecord({ requestId, provider, status, result })
-    // expect(actual).to.have.property('status')
-    // expect(actual).to.have.property('record')
-    // expect(actual.status).to.equal('RECORD_UPDATED')
-    // expect(actual.record.attrs).to.be.an('object')
-    // expect(actual.record.attrs).to.have.key('provider', 'requestId', 'status', 'result', 'id', 'createdAt', 'updatedAt')
-    // expect(actual.record.attrs.provider).to.equal(provider)
-    // expect(actual.record.attrs.requestId).to.equal(requestId)
-    // expect(actual.record.attrs.status).to.equal(status)
-    // expect(actual.record.attrs.result).to.deep.equal(updatedResult)
-  })
 })

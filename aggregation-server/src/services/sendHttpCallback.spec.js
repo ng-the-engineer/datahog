@@ -14,7 +14,6 @@ describe('Service - send HTTP callback', () => {
         }
       ] 
     })
-
-    console.log('Actual', actual)
+    expect(actual.data.message).to.equal('CALLBACK_ACKNOWLEDGED')
   })
 })
