@@ -9,11 +9,12 @@ const pushResultHandler = async (payload) => {
     return {
       requestId: item.attrs.requestId,
       provider: item.attrs.provider,
-      result: item.attrs.result
+      result: item.attrs.result,
     }
   })
   const requestId = payload[0].attrs.requestId
-  const ack = await sendResult({ requestId, payload: list })
+  const callbackUrl = payload[0].attrs.callbackUrl
+  const ack = await sendResult({ requestId, payload: list, callbackUrl })
   console.log(`${new Date().toISOString()} RequestId: ${requestId} has acknowledged by client (${ack.data.message})`)
 }
 

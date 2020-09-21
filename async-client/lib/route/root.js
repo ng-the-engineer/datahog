@@ -29,6 +29,9 @@ router.post(baseUrl + '/requests', async function (ctx) {
   var payload = ctx.request.body;
   ctx.assert(payload.providers, 422, 'Body parameter providers is mandatory');
   var requestId = (0, _idGenerator2.default)();
+  payload.callbackUrl = 'http://localhost:3100/api/v1/callback';
+
+  console.log('payload:', payload);
   try {
     await (0, _requestServer2.default)({ requestId: requestId, payload: payload });
     console.info(new Date().toISOString() + ' requestId: ' + requestId + ' placed request');

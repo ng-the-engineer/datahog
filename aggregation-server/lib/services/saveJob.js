@@ -20,13 +20,15 @@ var saveRecord = function saveRecord(input) {
   var requestId = input.requestId,
       provider = input.provider,
       status = input.status,
-      result = input.result;
+      result = input.result,
+      callbackUrl = input.callbackUrl;
 
   var newRecord = {
     requestId: requestId,
     provider: provider,
     status: status,
-    result: result
+    result: result,
+    callbackUrl: callbackUrl
   };
 
   return new Promise(function (resolve, reject) {

@@ -23,7 +23,8 @@ var table = {
     provider: _joi2.default.string(),
     requestId: _joi2.default.string(),
     status: _joi2.default.string(),
-    result: _joi2.default.any()
+    result: _joi2.default.any(),
+    callbackUrl: _joi2.default.string()
   }
 };
 

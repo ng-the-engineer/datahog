@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 const sendResult = async (input) => {
-  const { requestId, payload } = input 
+  const { requestId, payload, callbackUrl } = input
   try {
-    const ack = await axios.post(`http://localhost:3100/api/v1/callback?requestId=${requestId}`, payload)
+    const ack = await axios.post(`${callbackUrl}?requestId=${requestId}`, payload)
     return ack
   } catch (err) {
     console.log('err', err.code)

@@ -16,14 +16,15 @@ describe('Service - save job', () => {
         "amount": 15.12
       }
     ]
-    const actual = await saveRecord({ requestId, provider, status, result })
+    const callbackUrl = 'http://localhost:3100/api/v1/callback'
+    const actual = await saveRecord({ requestId, provider, status, result, callbackUrl })
 
     expect(actual).to.be.an('object')
     expect(actual).to.have.property('status')
     expect(actual).to.have.property('record')
     expect(actual.status).to.equal('RECORD_SAVED')
     expect(actual.record.attrs).to.be.an('object')
-    expect(actual.record.attrs).to.have.key('provider', 'requestId', 'status', 'result', 'id', 'createdAt')
+    expect(actual.record.attrs).to.have.key('provider', 'requestId', 'status', 'result', 'id', 'createdAt', 'callbackUrl')
     expect(actual.record.attrs.provider).to.equal('gas')
     expect(actual.record.attrs.requestId).to.equal('128')
     expect(actual.record.attrs.status).to.equal('DONE')
@@ -53,7 +54,8 @@ describe('Service - save job', () => {
         "amount": 15.12
       }
     ]
-    return expect(saveRecord({ requestId, provider, status, result })).to.be.rejected
+    const callbackUrl = 'http://localhost:3100/api/v1/callback'
+    return expect(saveRecord({ requestId, provider, status, result, callbackUrl })).to.be.rejected
   })
 
   it('should fail to save if status is missing', async () => {
@@ -66,7 +68,8 @@ describe('Service - save job', () => {
         "amount": 15.12
       }
     ]
-    return expect(saveRecord(requestId, provider, status, result)).to.be.rejected
+    const callbackUrl = 'http://localhost:3100/api/v1/callback'
+    return expect(saveRecord(requestId, provider, status, result, callbackUrl)).to.be.rejected
   })
 
   it('should save the record successfully if result is missing and status is not DONE', async () => {
@@ -74,8 +77,9 @@ describe('Service - save job', () => {
     const requestId = '140'
     const status = 'JOB_QUEUED'
     const result = null
+    const callbackUrl = 'http://localhost:3100/api/v1/callback'
 
-    const actual = await saveRecord({ requestId, provider, status, result })
+    const actual = await saveRecord({ requestId, provider, status, result, callbackUrl })
 
     expect(actual).to.be.an('object')
     expect(actual).to.have.property('status')
@@ -89,8 +93,9 @@ describe('Service - save job', () => {
     const requestId = '140'
     const status = 'DONE'
     const result = null
+    const callbackUrl = 'http://localhost:3100/api/v1/callback'
 
-    return expect(saveRecord({ requestId, provider, status, result })).to.be.rejectedWith('Result must not be empty if status is DONE')
+    return expect(saveRecord({ requestId, provider, status, result, callbackUrl })).to.be.rejectedWith('Result must not be empty if status is DONE')
   })
 })
 

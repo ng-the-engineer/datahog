@@ -26,14 +26,15 @@ describe('Service - save job', function () {
       "billedOn": "2020-02-07T15:03:14.257Z",
       "amount": 15.12
     }];
-    var actual = await (0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result });
+    var callbackUrl = 'http://localhost:3100/api/v1/callback';
+    var actual = await (0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result, callbackUrl: callbackUrl });
 
     (0, _chai.expect)(actual).to.be.an('object');
     (0, _chai.expect)(actual).to.have.property('status');
     (0, _chai.expect)(actual).to.have.property('record');
     (0, _chai.expect)(actual.status).to.equal('RECORD_SAVED');
     (0, _chai.expect)(actual.record.attrs).to.be.an('object');
-    (0, _chai.expect)(actual.record.attrs).to.have.key('provider', 'requestId', 'status', 'result', 'id', 'createdAt');
+    (0, _chai.expect)(actual.record.attrs).to.have.key('provider', 'requestId', 'status', 'result', 'id', 'createdAt', 'callbackUrl');
     (0, _chai.expect)(actual.record.attrs.provider).to.equal('gas');
     (0, _chai.expect)(actual.record.attrs.requestId).to.equal('128');
     (0, _chai.expect)(actual.record.attrs.status).to.equal('DONE');
@@ -59,7 +60,8 @@ describe('Service - save job', function () {
       "billedOn": "2020-02-07T15:03:14.257Z",
       "amount": 15.12
     }];
-    return (0, _chai.expect)((0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result })).to.be.rejected;
+    var callbackUrl = 'http://localhost:3100/api/v1/callback';
+    return (0, _chai.expect)((0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result, callbackUrl: callbackUrl })).to.be.rejected;
   });
 
   it('should fail to save if status is missing', async function () {
@@ -70,7 +72,8 @@ describe('Service - save job', function () {
       "billedOn": "2020-02-07T15:03:14.257Z",
       "amount": 15.12
     }];
-    return (0, _chai.expect)((0, _saveJob2.default)(requestId, provider, status, result)).to.be.rejected;
+    var callbackUrl = 'http://localhost:3100/api/v1/callback';
+    return (0, _chai.expect)((0, _saveJob2.default)(requestId, provider, status, result, callbackUrl)).to.be.rejected;
   });
 
   it('should save the record successfully if result is missing and status is not DONE', async function () {
@@ -78,8 +81,9 @@ describe('Service - save job', function () {
     var requestId = '140';
     var status = 'JOB_QUEUED';
     var result = null;
+    var callbackUrl = 'http://localhost:3100/api/v1/callback';
 
-    var actual = await (0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result });
+    var actual = await (0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result, callbackUrl: callbackUrl });
 
     (0, _chai.expect)(actual).to.be.an('object');
     (0, _chai.expect)(actual).to.have.property('status');
@@ -93,7 +97,8 @@ describe('Service - save job', function () {
     var requestId = '140';
     var status = 'DONE';
     var result = null;
+    var callbackUrl = 'http://localhost:3100/api/v1/callback';
 
-    return (0, _chai.expect)((0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result })).to.be.rejectedWith('Result must not be empty if status is DONE');
+    return (0, _chai.expect)((0, _saveJob2.default)({ requestId: requestId, provider: provider, status: status, result: result, callbackUrl: callbackUrl })).to.be.rejectedWith('Result must not be empty if status is DONE');
   });
 });

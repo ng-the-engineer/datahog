@@ -24,12 +24,15 @@ var baseUrl = _config2.default.baseUrl;
 router.post(baseUrl + '/requests', async function (ctx) {
   var requestId = ctx.query.requestId;
   var providers = ctx.request.body.providers;
+  console.log('callback url:', ctx.request.body);
+  var callbackUrl = ctx.request.body.callbackUrl;
 
   ctx.assert(requestId, 422, 'Query parameter "requestId" is mandatory');
   ctx.assert(providers, 422, 'Body parameter "providers" is mandatory');
+  ctx.assert(callbackUrl, 422, 'Body parameter "callbackUrl" is mandatory');
 
   try {
-    var record = (0, _datahog2.default)({ requestId: requestId, providers: providers });
+    var record = (0, _datahog2.default)({ requestId: requestId, providers: providers, callbackUrl: callbackUrl });
     createResponse({ ctx: ctx, body: record, status: 200 });
   } catch (err) {
     createResponse({ ctx: ctx, body: err, status: 400 });

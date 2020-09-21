@@ -4,12 +4,13 @@ import setAwsRegion from '../utils/setAwsRegion'
 setAwsRegion()
 
 const saveRecord = (input) => {
-  const { requestId, provider, status, result } = input
+  const { requestId, provider, status, result, callbackUrl } = input
   const newRecord = {
     requestId,
     provider,
     status,
-    result
+    result,
+    callbackUrl
   }
 
   return new Promise((resolve, reject) => {

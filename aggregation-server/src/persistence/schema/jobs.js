@@ -11,6 +11,7 @@ const table = {
     requestId: Joi.string(),
     status: Joi.string(),
     result: Joi.any(),
+    callbackUrl: Joi.string(),
   },
 }
 

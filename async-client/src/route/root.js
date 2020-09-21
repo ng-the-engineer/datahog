@@ -10,6 +10,8 @@ router.post(`${baseUrl}/requests`, async (ctx) => {
   const payload = ctx.request.body;
   ctx.assert(payload.providers, 422, 'Body parameter providers is mandatory');
   const requestId = generateRequestId()
+  payload.callbackUrl = 'http://localhost:3100/api/v1/callback'
+
   try {
     await requestToAggregationServer({ requestId, payload })
     console.info(`${new Date().toISOString()} requestId: ${requestId} placed request`)

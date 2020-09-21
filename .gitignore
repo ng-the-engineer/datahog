@@ -105,6 +105,7 @@ dist
 
 # build folder
 aggregation-server/lib/
+async-client/lib/
 
 # DS Store
 .DS_Store

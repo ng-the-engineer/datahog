@@ -12,7 +12,8 @@ describe('Service - send HTTP callback', () => {
         {
           provider: 'gas'
         }
-      ] 
+      ],
+      callbackUrl: 'http://localhost:3100/api/v1/callback'
     })
     expect(actual.data.message).to.equal('CALLBACK_ACKNOWLEDGED')
   })
