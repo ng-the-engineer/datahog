@@ -1,12 +1,23 @@
-version: '3' # specify docker-compose version
+version: '3' 
 
 services:
-  client-spec: # name of the first service
+  client-spec: # name of the Async Client
     build: "./open-api-spec/client" # specify the directory of the Dockerfile
     ports:
-      - "8081:8080" # maps port 8081 on localhost to 8080 in container
+      - "8081:8080"
 
-  server-spec: # name of the second service
+  server-spec: # name of the Aggregation Server
     build: "./open-api-spec/server" # specify the directory of the Dockerfile
     ports:
-      - "8082:8080" # maps port 8000 on localhost to 8000 in container
+      - "8082:8080"
+
+  data-server: # name of the mock server provided by Wonderbill
+    build: "./data-server" # specify the directory of the Dockerfile
+    ports:
+      - "3000:3000"
+
+  redis:
+    image: "redis:alpine"
+    command: redis-server
+    ports:
+     - "6379:6379"
