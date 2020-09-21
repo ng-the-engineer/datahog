@@ -1,0 +1,136 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: Asychronous Client API
+  contact:
+    email: engineer.anthony.ng@gmail.com
+  x-logo:
+    url: 'https://www.wonderbill.com/images/Logoheader.png'
+  description: >
+
+    # Introduction
+
+    This
+    [OpenAPI](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md)
+    Specification describe the endpoints of the Asynchronous Client
+    micro-service.
+tags:
+  - name: Datahog
+    description: Datahog retrieval request
+servers:
+  - url: 'http://localhost:3100/api/v1'
+  - url: 'https://localhost:3100/api/v1'
+paths:
+  '/requests/{requestId}':
+    post:
+      tags:
+        - Datahog
+      summary: Create a Datahog request to the Aggregation service
+      description: >-
+        Create a data retrieval request to the Aggregation Server by specifying
+        the list of providers. The result of the data retrieval will be sent
+        back in an asynchronous way through the callback endpoint described next
+        (GET /requests).
+      operationId: postRequest
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestOutput'
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInput'
+        description: Datahog request payload
+        required: true
+  '/callbacks/{requestId}':
+    post:
+      tags:
+        - Datahog
+      summary: Receive the Dathog result from Aggregation service
+      operationId: postResult
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallbackOutput'
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallbackInput'
+        description: Datahog callback payload
+        required: true
+components:
+  schemas:
+    RequestInput:
+      type: object
+      properties:
+        providers:
+          description: The list of providers to be retrieved
+          type: array
+          items:
+            type: object
+            properties:
+              provider:
+                description: The provider identifier
+                type: string
+                example: gas
+    RequestOutput:
+      type: object
+      properties:
+        status:
+          description: The status of the request
+          type: string
+          example: Processing
+        requestId:
+          description: >-
+            The unique id of the request to correlate the result from the
+            callback.
+          type: string
+          example: a999999
+    CallbackInput:
+      type: object
+      properties:
+        provider:
+          description: The specific provider
+          type: string
+          example: gas
+        records:
+          description: The list of records retrieved
+          type: array
+          items:
+            type: object
+            properties:
+              billedOn:
+                description: Bill date in timestamp
+                type: string
+                example: 2020-02-07T15:03:14.257Z
+              amount:
+                description: The amount of the bill
+                type: number
+                example: 15.12
+    CallbackOutput:
+      type: object
+      properties:
+        status:
+          description: The status of the callback
+          type: string
+          example: CallbackAcknowledged
+        requestId:
+          description: The requestId of the request
+          type: string
+          example: a1112

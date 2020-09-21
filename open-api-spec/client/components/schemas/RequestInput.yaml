@@ -4,5 +4,9 @@ properties:
     description: The list of providers to be retrieved
     type: array
     items:
-      type: string
-      example: gas, internet
+      type: object
+      properties:
+        provider:
+          description: The provider identifier
+          type: string
+          example: gas
