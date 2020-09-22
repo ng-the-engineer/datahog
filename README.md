@@ -116,6 +116,22 @@ Post request body:
 }
 ```
 
+A sample curl command
+
+```
+curl --location --request POST 'localhost:3100/api/v1/requests' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "providers": [
+        {
+            "provider": "gas"
+        },{
+            "provider": "internet"
+        }
+    ]
+}'
+```
+
 You will get a response alike below structure. The status `REQUEST_PLACED` means the request has sent to the server successfully. The `requestId` is an identifier to match up the result when the callback is collected.
 
 ```
