@@ -12,7 +12,8 @@ describe('Requests API tests', () => {
         {
           provider: 'gas'
         }
-      ]
+      ],
+      callbackUrl: 'http://localhost:3100/api/v1'
     }
 
     chai.request('localhost:3200')
