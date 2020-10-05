@@ -45,6 +45,7 @@ queue.process( function (job, done) {
     // console.log('The reminder is 1!')
     throw Error
   }
+  return done(null, 'Hello');
 
 
   // http.get({
@@ -71,12 +72,12 @@ queue.process( function (job, done) {
 
 
   // Test OK
-  fetch('https://api.github.com/users/github')
-    .then(res => res.json())
-    .then(json => {
-      // console.log(json)
-      return done(null, 'Hello');
-    });
+  // fetch('https://api.github.com/users/github')
+  //   .then(res => res.json())
+  //   .then(json => {
+  //     // console.log(json)
+  //     return done(null, 'Hello');
+  //   });
 
 
 });
